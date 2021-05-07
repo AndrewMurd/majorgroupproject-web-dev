@@ -1,0 +1,45 @@
+html 
+    head
+        link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css')
+        script(type='text/javascript' src='https://code.jquery.com/jquery-latest.min.js')
+        if signedIn
+            script(defer='' type='text/javascript' src='scripts/multiPlayerLogic.js')
+        else
+            script(defer='' type='text/javascript' src='scripts/logic.js')
+        script(src='/socket.io/socket.io.js')
+        link(rel='stylesheet' href='styles/style.css')
+        title=pageTitle
+    body
+        nav.navbar.is-dark(role='navigation' aria-label='main navigation')
+            
+            a.navbar-item.logo
+                img(src='images/logo1.png' width='40' height='100')
+            a.navbar-burger.burger(role='button' aria-label='menu' aria-expanded='false' data-target='navMenu')
+                span(aria-hidden='true')
+                span(aria-hidden='true')
+                span(aria-hidden='true')
+            .navbar-menu(id='sudoku nav')
+                .navbar-start
+                    a.navbar-item(href='/home') Home
+                    .navbar-item.has-dropdown.is-hoverable
+                        a.navbar-link Play Multiplayer
+                        .navbar-dropdown
+                            a.navbar-item#createRoom Create Room
+                            a.navbar-item#joinRoom Join Room
+                    a.navbar-item#leader(href="html/board.html") Leaderboards
+            .navbar-end
+                .navbar-item
+                    .buttons
+                        if signedIn
+                            a.button.is-light(href='/logout') Log out
+                        else
+                            a.button.is-danger(href='/sign-up') Sign-Up
+                            a.button.is-light(href='/login') Log in
+        
+        input#gameCode.hidden(class='input' type='text' name='code')
+        form#form(method="get", action="/gameRoom", class="form")
+            input#code(class='input' type='hidden' name='code')
+
+        //- form#secondForm(href="html/leaderboard.html")
+        //-     input#data(class='input' type='hidden' name='data')
+        block content
